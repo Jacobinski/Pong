@@ -60,9 +60,51 @@ Ball.prototype.render = function() {
     context.fill();
 };
 
-Ball.prototype.update = function() {
+Ball.prototype.update = function(top_paddle, bottom_paddle) {
     this.x += this.x_speed;
     this.y += this.y_speed;
+    var left = this.x - this.radius;
+    var top = this.y - this.radius;
+    var right = this.x + this.radius;
+    var bottom = this.y + this.radius;
+
+    // Detect side wall collision
+    if (left < 0) {
+        this.x = this.radius;
+        this.x_speed = -this.x_speed;
+    }
+    else if (right > width) {
+        this.x = width - this.radius;
+        this.x_speed = -this.x_speed;
+    }
+
+    // Detect point scored
+    if (top > height || bottom < 0) {
+        this.x_speed = 0;
+        this.y_speed = 3;
+        this.x = 200;
+        this.y = 300;
+    }
+
+    // Detect top paddle hit
+    if ((top > 350)
+        && (top > (top_paddle.y - top_paddle.height))
+        && (top < top_paddle.y)
+        && (left > top_paddle.x)
+        && (right < top_paddle.x + top_paddle.width)){
+        this.x_speed += top_paddle.x_speed / 2;
+        this.y_speed = -3;
+        this.y += this.y_speed;
+    }
+    else if ((bottom < 50)
+        && (bottom > (bottom_paddle.y - bottom_paddle.height))
+        && (bottom < bottom_paddle.y)
+        && (left > bottom_paddle.x)
+        && (right < bottom_paddle.x + bottom_paddle.width)) {
+        this.x_speed += bottom_paddle.x_speed / 2;
+        this.y_speed = 3;
+        this.y += this.y_speed;
+    }
 };
 
 var player = new Player();
@@ -76,7 +118,7 @@ var step = function() {
 };
 
 var update = function() {
-    ball.update();
+    ball.update(player.paddle, computer.paddle);
 };
 
 var render = function() {
