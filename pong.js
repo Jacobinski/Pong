@@ -80,11 +80,26 @@ Player.prototype.update = function() {
         if( value == 37 ) {
             this.paddle.move(-4, 0);
         }
-        // Right Arrow
+        // Right arrow
         else if( value == 39 ) {
             this.paddle.move(4, 0);
         }
     }
+};
+
+Computer.prototype.update = function(ball) {
+    var paddle_x = this.paddle.x + this.paddle.width/2
+    var ball_x = ball.x
+    var move = ball_x - paddle_x;
+
+    // Limit the max movement of the paddle
+    if( move > 4 ) {
+        move = 4;
+    }
+    else if( move < -4 ) {
+        move = -4;
+    }
+    this.paddle.move(move, 0);
 };
 
 function Ball(x, y) {
@@ -161,6 +176,7 @@ var step = function() {
 
 var update = function() {
     player.update();
+    computer.update(ball);
     ball.update(player.paddle, computer.paddle);
 };
 
