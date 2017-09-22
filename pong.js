@@ -90,8 +90,8 @@ Ball.prototype.update = function(top_paddle, bottom_paddle) {
     if ((top > 350)
         && (top < (top_paddle.y + top_paddle.height))
         && (top > top_paddle.y)
-        && (left > top_paddle.x)
-        && (right < top_paddle.x + top_paddle.width)){
+        && (right > top_paddle.x)
+        && (left < top_paddle.x + top_paddle.width)){
         this.x_speed += top_paddle.x_speed / 2;
         this.y_speed = -3;
         this.y += this.y_speed;
@@ -99,8 +99,8 @@ Ball.prototype.update = function(top_paddle, bottom_paddle) {
     else if ((bottom < 50)
         && (bottom < (bottom_paddle.y + bottom_paddle.height))
         && (bottom > bottom_paddle.y)
-        && (left > bottom_paddle.x)
-        && (right < bottom_paddle.x + bottom_paddle.width)) {
+        && (right > bottom_paddle.x)
+        && (left < bottom_paddle.x + bottom_paddle.width)) {
         this.x_speed += bottom_paddle.x_speed / 2;
         this.y_speed = 3;
         this.y += this.y_speed;
