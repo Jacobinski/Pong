@@ -9,6 +9,14 @@ var height = 600;
 canvas.width = width;
 canvas.height = height;
 var context = canvas.getContext('2d');
+var keysDown = {};
+
+window.addEventListener("keydown", function(event) {
+    keysDown[event.keyCode] = true;
+});
+window.addEventListener("keyup", function(event) {
+    delete keysDown[event.keyCode];
+});
 
 window.onload = function() {
     document.body.appendChild(canvas);
@@ -45,6 +53,40 @@ Computer.prototype.render = function() {
     this.paddle.render();
 };
 
+Paddle.prototype.move = function(x, y) {
+    this.x += x;
+    this.y += y;
+    this.x_speed = x;
+    this.y_speed = y;
+
+    // Paddle too far left
+    if( this.x < 0 ) {
+        this.x = 0;
+        this.x_speed = 0;
+    }
+
+    // Paddle too far right
+    else if( this.x + this.width > width ){
+        this.x = width - this.width;
+        this.x_speed = 0;
+    }
+};
+
+Player.prototype.update = function() {
+    for( var key in keysDown ) {
+        var value = Number(key);
+
+        // Left arrow
+        if( value == 37 ) {
+            this.paddle.move(-4, 0);
+        }
+        // Right Arrow
+        else if( value == 39 ) {
+            this.paddle.move(4, 0);
+        }
+    }
+};
+
 function Ball(x, y) {
     this.x = x;
     this.y = y;
@@ -69,17 +111,17 @@ Ball.prototype.update = function(top_paddle, bottom_paddle) {
     var top = this.y + this.radius;
 
     // Detect side wall collision
-    if (left < 0) {
+    if( left < 0 ) {
         this.x = this.radius;
         this.x_speed = -this.x_speed;
     }
-    else if (right > width) {
+    else if( right > width ) {
         this.x = width - this.radius;
         this.x_speed = -this.x_speed;
     }
 
     // Detect point scored
-    if (top > height || bottom < 0) {
+    if( top > height || bottom < 0 ) {
         this.x_speed = 0;
         this.y_speed = 3;
         this.x = 200;
@@ -118,6 +160,7 @@ var step = function() {
 };
 
 var update = function() {
+    player.update();
     ball.update(player.paddle, computer.paddle);
 };
 
