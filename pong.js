@@ -3,9 +3,9 @@ var animate = window.requestAnimationFrame ||
     window.mozRequestAnimationFrame ||
     function(callback) { window.setTimeout(callback, 1000/60) };
 
-var canvas = document.createElement('canvas');
-var width = 400;
-var height = 600;
+var canvas = document.createElement("canvas");
+var width = window.innerWidth;
+var height = window.innerHeight;
 canvas.width = width;
 canvas.height = height;
 var context = canvas.getContext('2d');
@@ -38,11 +38,11 @@ Paddle.prototype.render = function() {
 };
 
 function Player() {
-    this.paddle = new Paddle(175, 580, 50, 10);
+    this.paddle = new Paddle(width/2, height-20, 50, 10);
 };
 
 function Computer() {
-    this.paddle = new Paddle(175, 10, 50, 10);
+    this.paddle = new Paddle(width/2, 10, 50, 10);
 };
 
 Player.prototype.render = function() {
@@ -166,7 +166,7 @@ Ball.prototype.update = function(top_paddle, bottom_paddle) {
 
 var player = new Player();
 var computer = new Computer();
-var ball = new Ball(200, 300);
+var ball = new Ball(width/2, height/2);
 
 var step = function() {
     update();
