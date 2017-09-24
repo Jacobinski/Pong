@@ -139,8 +139,11 @@ Ball.prototype.update = function(top_paddle, bottom_paddle) {
     if( top > height || bottom < 0 ) {
         this.x_speed = 0;
         this.y_speed = 3;
-        this.x = 200;
-        this.y = 300;
+        this.x = width/2;
+        this.y = height/2;
+        // Reset paddles
+        top_paddle.x = width/2;
+        bottom_paddle.x = width/2;
     }
 
     // Detect top paddle hit
