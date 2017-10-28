@@ -4,8 +4,8 @@ var animate = window.requestAnimationFrame ||
     function(callback) { window.setTimeout(callback, 1000/60) };
 
 var canvas = document.createElement("canvas");
-var width = window.innerWidth;
-var height = window.innerHeight;
+var width = 0.85 * window.innerWidth;
+var height = 0.85 * window.innerHeight;
 canvas.width = width;
 canvas.height = height;
 var context = canvas.getContext('2d');
